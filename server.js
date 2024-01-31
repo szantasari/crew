@@ -1,35 +1,46 @@
 const express = require('express');
+const cors = require('cors');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Konfigurasi CORS
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
+// Konfigurasi Google Spreadsheet
 const doc = new GoogleSpreadsheet('10m5KoW7SDHET7QZYbvIeF12TWJVZjfQfr_EL0gmDVJk');
-const sheetName = 'Sheet1';
+const sheetName = 'member';
 const creds = require('./begitu.json');
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/register.html');
-});
-
-app.post('/register', async (req, res) => {
-  const { name, email } = req.body;
+// Middleware untuk verifikasi kredensial
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
 
   try {
+    // Autentikasi pengguna dengan data di spreadsheet
     await doc.useServiceAccountAuth(creds);
     await doc.loadInfo();
     const sheet = doc.sheetsByTitle[sheetName];
-    await sheet.addRow({ Name: name, Email: email });
-    res.json({ message: 'User registered successfully!' });
+    const rows = await sheet.getRows();
+
+    let authenticated = false;
+    for (const row of rows) {
+      if (row.Username === username && row.Password === password) {
+        authenticated = true;
+        break;
+      }
+    }
+
+    res.json({ authenticated: authenticated });
   } catch (error) {
     console.error('Error:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
+// Jalankan server
 app.listen(port, () => {
-  console.log(`Server is running on web`);
+  console.log(`Server berjalan di https://github.com/szantasari/crew`);
 });

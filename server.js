@@ -10,9 +10,9 @@ app.use(cors());
 app.use(express.json());
 
 // Konfigurasi Google Spreadsheet
-const doc = new GoogleSpreadsheet('SPREADSHEET_ID');
+const doc = new GoogleSpreadsheet('10m5KoW7SDHET7QZYbvIeF12TWJVZjfQfr_EL0gmDVJk');
 const sheetName = 'member';
-const creds = require('./google-credentials.json');
+const creds = require('./begitulah.json');
 
 // Middleware untuk verifikasi kredensial
 app.post('/login', async (req, res) => {

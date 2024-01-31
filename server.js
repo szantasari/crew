@@ -12,7 +12,7 @@ app.use(express.json());
 // Konfigurasi Google Spreadsheet
 const doc = new GoogleSpreadsheet('10m5KoW7SDHET7QZYbvIeF12TWJVZjfQfr_EL0gmDVJk');
 const sheetName = 'member';
-const creds = require('./begitulah.json');
+const creds = require('./begitu.json');
 
 // Middleware untuk verifikasi kredensial
 app.post('/login', async (req, res) => {
@@ -42,5 +42,5 @@ app.post('/login', async (req, res) => {
 
 // Jalankan server
 app.listen(port, () => {
-  console.log(`Server berjalan di http://localhost:${port}`);
+  console.log(`Server berjalan di https://github.com/szantasari/crew`);
 });

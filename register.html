@@ -29,11 +29,13 @@
       $('#registerForm').submit(function(e) {
         e.preventDefault();
         var formData = $(this).serialize();
-        $.post('/register', formData, function(response) {
-          $('#message').text(response.message);
-        });
+        google.script.run.registerNewUser(formData);
       });
     });
+
+    function showResponse(message) {
+      $('#message').text(message);
+    }
   </script>
 </body>
 </html>

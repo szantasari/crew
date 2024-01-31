@@ -3,79 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Form</title>
-  <!-- Bootstrap CSS -->
+  <title>User Data</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    .container {
-      margin-top: 100px;
-    }
-  </style>
 </head>
 <body>
-
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="text-center">Login Form</h3>
-        </div>
-        <div class="card-body">
-          <form id="loginForm">
-            <div class="form-group">
-              <label for="username">Username:</label>
-              <input type="text" class="form-control" id="username" name="username">
-            </div>
-            <div class="form-group">
-              <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
-          </form>
-        </div>
-        <div class="card-footer text-center" id="message"></div>
-      </div>
-    </div>
+  <div class="container mt-5">
+    <h2>User Data</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <? for (var i = 0; i < data.length; i++) { ?>
+          <tr>
+            <td><?= data[i].name ?></td>
+            <td><?= data[i].email ?></td>
+          </tr>
+        <? } ?>
+      </tbody>
+    </table>
   </div>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script>
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-    
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-
-    // Kirim permintaan HTTP POST ke server menggunakan fetch API
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username: username, password: password })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.authenticated) {
-        document.getElementById('message').innerHTML = '<div class="alert alert-success" role="alert">Login berhasil!</div>';
-      } else {
-        document.getElementById('message').innerHTML = '<div class="alert alert-danger" role="alert">Username atau password salah.</div>';
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  });
-</script>
-
 </body>
 </html>

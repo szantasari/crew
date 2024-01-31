@@ -1,16 +1,15 @@
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('register')
-      .setTitle('Register New User');
-}
+  var ss = SpreadsheetApp.openById('YOUR_SPREADSHEET_ID');
+  var sheet = ss.getSheetByName('Sheet1');
+  var data = sheet.getDataRange().getValues();
 
-function registerNewUser(formData) {
-  var ss = SpreadsheetApp.openById('10m5KoW7SDHET7QZYbvIeF12TWJVZjfQfr_EL0gmDVJk');
-  var sheet = ss.getSheetByName('member');
-  var data = formData.split('&').reduce(function(obj, item) {
-    var parts = item.split('=');
-    obj[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
-    return obj;
-  }, {});
-  sheet.appendRow([data.name, data.email]);
-  return "User registered successfully!";
+  // Mengonversi data menjadi array JSON
+  var jsonData = data.slice(1).map(function(row) {
+    return { name: row[0], email: row[1] };
+  });
+
+  // Membuat objek template untuk di-render di HTML
+  var template = HtmlService.createTemplateFromFile('index');
+  template.data = jsonData;
+  return template.evaluate();
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Form</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Gaya tambahan jika diperlukan */
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Login Form</h3>
+          </div>
+          <div class="card-body">
+            <form id="loginForm">
+              <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username">
+              </div>
+              <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password">
+              </div>
+              <button type="button" class="btn btn-primary btn-block" onclick="login()">Login</button>
+            </form>
+          </div>
+          <div class="card-footer text-center" id="message"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      
+      google.script.run.withSuccessHandler(onSuccess).authenticateUser(username, password);
+    }
+
+    function onSuccess(authenticated) {
+      var message = document.getElementById('message');
+      if (authenticated) {
+        message.innerHTML = '<div class="alert alert-success" role="alert">Login berhasil!</div>';
+      } else {
+        message.innerHTML = '<div class="alert alert-danger" role="alert">Username atau password salah.</div>';
+      }
+    }
+  </script>
+</body>
+</html>
